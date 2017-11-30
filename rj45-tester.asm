@@ -1,16 +1,16 @@
 ; Devise Khodirev A.P. LAN-tester,for any AVR. Here is for ATtiny2313
 ; *****************************************************************************
 ; MPU proizvodit posledovatel'niy vikhodi v port D, gde vkluchen LAN-kabel.
-; So we can tell if all wires of cable are connected and in which order.
-; Just watch the glow order of the LEDs. If a straight cable is connected between
-; connectors A and B, then the LEDs will glow in successive order.
-; If a cross cable is connected, then the glow order will be as noted on the board,
-; i.e. 1,2,7,4,5,8,3,6. If any other glow order occurs, it means that the cable
-; is not wired correctly. If one ore more LEDs don't glow, then we have corresponding
-; lack of contact.
-; An extra remote unit with only B connector (B2) can be used, in case that both 
-; ends of the cable cannot be brought close enough to be connected on the same board.
-; See diagram.
+; Tak mi mogem opredelit' podluchen kabel ili net
+; Prosto nablyudayte za svecheniyem svetodiodov. Yesli pryamoy kabel' podklyuchen mezhdu
+; raz"yemy A i B, togda svetodiody budut svetit'sya posledovatel'no.
+; Yesli perekrestnyy kabel' podklyuchen, to poryadok svecheniya budet takim zhe, kak ukazano na plate,
+; t.ye. 1,2,7,4,5,8,3,6. Yesli proiskhodit kakoy-libo drugoy poryadok svecheniya, eto oznachayet, chto kabel'
+; nepravil'no podklyuchen. Yesli odno ili bol'she svetodiodov ne svetyatsya, to u nas yest' sootvetstvuyushchiye
+; otsutstviye kontakta.
+; Mozhno ispol'zovat' dopolnitel'nyy udalennyy blok s raz"yemom B (B2), v sluchaye, yesli oba
+; kontsy kabelya ne mogut byt' ustanovleny dostatochno blizko, chtoby ikh mozhno bylo podklyuchit' na odnoy plate.
+
 
 .NOLIST
 .INCLUDE "tn2313def.inc"
@@ -25,14 +25,14 @@
 .def	T2 		= r18
 .def	T3 		= r19
 .def	cnt		= r29	; binary counter 0-7
-.def	indexL	= r30	; these registers are for lpm instruction
+.def	indexL	= r30	; eti registry prednaznacheny dlya komandy lpm
 .def	indexH	= r31
 
-.equ	Td		= 3	; delay time
+.equ	Td		= 3		; delay time
 
 rjmp RESET				; Reset Handler
 
-; ****************** routines *****************************************
+; =============== podprogrammy ===============
 
 delay:	ser		T1		; long delay
 		ser		T2
@@ -47,7 +47,7 @@ sdel1:	dec		T1
 		brne	sdel1
 		ret
 
-; ******************** Main program ********************************
+; =============== Main program ===============
 
 RESET:	ldi		r16,LOW(RAMEND)	;Initiate Stackpointer.
 		out		SPL,r16
